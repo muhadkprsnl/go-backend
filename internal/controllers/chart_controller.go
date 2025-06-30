@@ -3,10 +3,12 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"local/qa-report/internal/repositories"
+
+	// "local/qa-report/internal/repositories"
 	"net/http"
 	"time"
 
+	"github.com/muhadkprsnl/go-backend/internal/repositories"
 	"go.uber.org/zap"
 )
 

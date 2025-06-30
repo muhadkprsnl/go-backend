@@ -5,9 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"local/qa-report/internal/models"
-	"local/qa-report/internal/utils"
+	// "local/qa-report/internal/models"
+	// "local/qa-report/internal/utils"
 
+	"github.com/muhadkprsnl/go-backend/internal/models"
+	"github.com/muhadkprsnl/go-backend/internal/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"

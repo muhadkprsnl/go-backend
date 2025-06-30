@@ -5,7 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"local/qa-report/internal/repositories"
+	// "local/qa-report/internal/repositories"
+	"github.com/muhadkprsnl/go-backend/internal/repositories"
 )
 
 type SummaryController struct {

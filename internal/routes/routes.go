@@ -1,10 +1,14 @@
 package routes
 
 import (
-	"local/qa-report/internal/controllers"
-	"local/qa-report/internal/repositories"
-	"local/qa-report/pkg/middleware"
+	// "local/qa-report/internal/controllers"
+	// "local/qa-report/internal/repositories"
+	// "local/qa-report/pkg/middleware"
 	"net/http"
+
+	"github.com/muhadkprsnl/go-backend/interna/pkg/middleware"
+	"github.com/muhadkprsnl/go-backend/internal/controllers"
+	"github.com/muhadkprsnl/go-backend/internal/repositories"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"

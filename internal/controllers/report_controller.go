@@ -2,9 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
-	"local/qa-report/internal/models"
-	"local/qa-report/internal/repositories"
+	// "local/qa-report/internal/models"
+
+	// "local/qa-report/internal/repositories"
 	"net/http"
+
+	"github.com/muhadkprsnl/go-backend/internal/models"
+	"github.com/muhadkprsnl/go-backend/internal/repositories"
 
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"

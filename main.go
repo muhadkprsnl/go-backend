@@ -3,14 +3,18 @@ package main
 import (
 	"context"
 	"fmt"
-	"local/qa-report/internal/config"
-	"local/qa-report/internal/routes"
+
+	// "local/qa-report/internal/config"
+	// "local/qa-report/internal/routes"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/muhadkprsnl/go-backend/internal/config"
+	"modulegithub.com/muhadkprsnl/go-backend/internal/routes"
 
 	"go.uber.org/zap"
 )

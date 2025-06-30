@@ -6,9 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"local/qa-report/internal/repositories"
+	"github.com/muhadkprsnl/go-backend/internal/repositories"
 )
 
+// "local/qa-report/internal/repositories"
 // ReleaseController handles release-related API endpoints
 type ReleaseController struct {
 	Repo *repositories.ReportRepository

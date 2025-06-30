@@ -2,8 +2,10 @@ package repositories
 
 import (
 	"context"
-	"local/qa-report/internal/models"
+	// "local/qa-report/internal/models"
 	"time"
+
+	"github.com/muhadkprsnl/go-backend/internal/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

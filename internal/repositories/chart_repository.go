@@ -3,9 +3,10 @@ package repositories
 import (
 	"context"
 	"fmt"
-	"local/qa-report/internal/models"
 	"strings"
 	"time"
+
+	"github.com/muhadkprsnl/go-backend/internal/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
