@@ -6,9 +6,9 @@ import (
 	// "local/qa-report/pkg/middleware"
 	"net/http"
 
-	"github.com/muhadkprsnl/go-backend/interna/pkg/middleware"
 	"github.com/muhadkprsnl/go-backend/internal/controllers"
 	"github.com/muhadkprsnl/go-backend/internal/repositories"
+	"github.com/muhadkprsnl/go-backend/pkg/middleware"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
