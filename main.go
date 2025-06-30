@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/muhadkprsnl/go-backend/internal/config"
-	"modulegithub.com/muhadkprsnl/go-backend/internal/routes"
+	"github.com/muhadkprsnl/go-backend/internal/routes"
 
 	"go.uber.org/zap"
 )
