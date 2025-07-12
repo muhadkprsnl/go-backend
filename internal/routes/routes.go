@@ -47,6 +47,12 @@ func SetupRouter(mongoClient *mongo.Client, logger *zap.Logger) *mux.Router {
 	reportRouter.HandleFunc("/{id}", reportController.UpdateReport).Methods("PUT", "PATCH", "OPTIONS")
 	reportRouter.HandleFunc("/{id}", reportController.DeleteReport).Methods("DELETE", "OPTIONS")
 
+	//Table
+	v1.HandleFunc("/table-reports", controllers.GetReports).Methods("GET")
+	router.HandleFunc("/api/reports", controllers.UpdateReport).Methods("PUT", "OPTIONS")
+	// v1.HandleFunc("/table-reports", controllers.UpdateReport).Methods("PUT")
+	router.HandleFunc("/api/reports/{id}", controllers.DeleteReport).Methods("DELETE", "OPTIONS")
+
 	// Analytics endpoints (versioned)
 	v1.HandleFunc("/analytics/donut", chartController.GetDonutChart).Methods("GET", "OPTIONS")
 

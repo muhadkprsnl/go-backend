@@ -13,13 +13,20 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/muhadkprsnl/go-backend/internal/config"
 	"github.com/muhadkprsnl/go-backend/internal/routes"
-
 	"go.uber.org/zap"
 )
 
 func main() {
+
+	if err := godotenv.Load(); err != nil {
+		log.Println("⚠️  No .env file found (that's OK in production)")
+	}
+
+	fmt.Println("Loaded URI:", os.Getenv("MONGODB_URI"))
+
 	// Initialize logger
 	logger, err := zap.NewProduction()
 	if err != nil {

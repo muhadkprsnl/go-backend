@@ -56,6 +56,21 @@ func (r *ReportRepository) GetAllReports() ([]models.FormData, error) {
 	return reports, nil
 }
 
+func (r *ReportRepository) GetReportByID(id string) (*models.FormData, error) {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	var report models.FormData
+	err = r.collection.FindOne(context.TODO(), bson.M{"_id": objID}).Decode(&report)
+	if err != nil {
+		return nil, err
+	}
+
+	return &report, nil
+}
+
 func (r *ReportRepository) UpdateReport(id string, report models.FormData) error {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -182,6 +197,66 @@ func (r *ReportRepository) GetSummaryData(startDate, endDate time.Time, sprint s
 }
 
 // SprintError rate
+// func (r *ReportRepository) GetSprintErrorRates(startDate, endDate time.Time) ([]models.SprintErrorRate, error) {
+// 	startDate = time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 0, 0, 0, 0, time.UTC)
+// 	endDate = time.Date(endDate.Year(), endDate.Month(), endDate.Day(), 23, 59, 59, 999000000, time.UTC)
+
+// 	filter := bson.M{
+// 		"dueDate": bson.M{
+// 			"$gte": startDate,
+// 			"$lte": endDate,
+// 		},
+// 	}
+
+// 	cursor, err := r.collection.Find(context.TODO(), filter)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	defer cursor.Close(context.TODO())
+
+// 	type Accumulator struct {
+// 		TotalBugs int
+// 		Failed    int
+// 	}
+
+// 	sprintMap := make(map[string]map[string]*Accumulator) // sprint -> env -> Acc
+
+// 	for cursor.Next(context.TODO()) {
+// 		var report models.FormData
+// 		if err := cursor.Decode(&report); err != nil {
+// 			continue
+// 		}
+// 		sprint := report.Sprint
+// 		env := report.Environment
+// 		if _, ok := sprintMap[sprint]; !ok {
+// 			sprintMap[sprint] = map[string]*Accumulator{
+// 				"development": {},
+// 				"production":  {},
+// 			}
+// 		}
+// 		acc := sprintMap[sprint][env]
+// 		acc.TotalBugs += report.Totalbugs
+// 		acc.Failed += report.D1Failed + report.D2Failed
+// 	}
+
+// 	var results []models.SprintErrorRate
+// 	for sprint, envs := range sprintMap {
+// 		result := models.SprintErrorRate{Name: sprint}
+
+// 		if dev := envs["development"]; dev.TotalBugs > 0 {
+// 			result.DevError = float64(dev.Failed) * 100 / float64(dev.TotalBugs)
+// 		}
+// 		if prod := envs["production"]; prod.TotalBugs > 0 {
+// 			result.ProdError = float64(prod.Failed) * 100 / float64(prod.TotalBugs)
+// 		}
+
+// 		results = append(results, result)
+// 	}
+
+// 	return results, nil
+// }
+
+// Updated SprintError rate calculation
 func (r *ReportRepository) GetSprintErrorRates(startDate, endDate time.Time) ([]models.SprintErrorRate, error) {
 	startDate = time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 0, 0, 0, 0, time.UTC)
 	endDate = time.Date(endDate.Year(), endDate.Month(), endDate.Day(), 23, 59, 59, 999000000, time.UTC)
@@ -204,7 +279,7 @@ func (r *ReportRepository) GetSprintErrorRates(startDate, endDate time.Time) ([]
 		Failed    int
 	}
 
-	sprintMap := make(map[string]map[string]*Accumulator) // sprint -> env -> Acc
+	sprintMap := make(map[string]map[string]*Accumulator)
 
 	for cursor.Next(context.TODO()) {
 		var report models.FormData
@@ -213,12 +288,14 @@ func (r *ReportRepository) GetSprintErrorRates(startDate, endDate time.Time) ([]
 		}
 		sprint := report.Sprint
 		env := report.Environment
+
 		if _, ok := sprintMap[sprint]; !ok {
-			sprintMap[sprint] = map[string]*Accumulator{
-				"development": {},
-				"production":  {},
-			}
+			sprintMap[sprint] = make(map[string]*Accumulator)
 		}
+		if _, ok := sprintMap[sprint][env]; !ok {
+			sprintMap[sprint][env] = &Accumulator{}
+		}
+
 		acc := sprintMap[sprint][env]
 		acc.TotalBugs += report.Totalbugs
 		acc.Failed += report.D1Failed + report.D2Failed
@@ -228,10 +305,10 @@ func (r *ReportRepository) GetSprintErrorRates(startDate, endDate time.Time) ([]
 	for sprint, envs := range sprintMap {
 		result := models.SprintErrorRate{Name: sprint}
 
-		if dev := envs["development"]; dev.TotalBugs > 0 {
+		if dev, ok := envs["development"]; ok && dev.TotalBugs > 0 {
 			result.DevError = float64(dev.Failed) * 100 / float64(dev.TotalBugs)
 		}
-		if prod := envs["production"]; prod.TotalBugs > 0 {
+		if prod, ok := envs["production"]; ok && prod.TotalBugs > 0 {
 			result.ProdError = float64(prod.Failed) * 100 / float64(prod.TotalBugs)
 		}
 

@@ -1,0 +1,12 @@
+# Ignore .env to protect secrets
+.env
+
+# Ignore built binaries
+/app
+/app.exe
+*.out
+
+# Ignore IDE/editor settings
+.vscode/
+.idea/
+*.swp
